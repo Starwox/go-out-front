@@ -1,14 +1,17 @@
 import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import LoginScreen from '../components/LoginScreen';
 import RoomScreen from '../components/RoomScreen';
-export default function TabTwoScreen() {
+import { Text, View } from '../components/Themed';
+import { RootTabScreenProps } from '../types';
+// { navigation }: RootTabScreenProps<'TabOne'>
+export default function RegisterScreen() {
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.title}>Tab Two</Text>
+      {/* <Text style={styles.title}>Tab One</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */}
+      <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
       <RoomScreen />
     </View>
   );
