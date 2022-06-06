@@ -1,57 +1,49 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, StatusBar, Linking, Alert } from 'react-native';
 import { Button } from 'react-native-paper';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RNCamera } from 'react-native-camera'
+import { BarCodeScanner, PermissionStatus } from 'expo-barcode-scanner';
 
 export default function ShareCodeScreen() {
- const [barcodes, setBarcodes] = useState([]);
- const cameraRef = useRef(null); 
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
 
- const barcoderecognized =({ barcodes }) => {
-    barcodes?.forEach(barcode => console.log(barcode.data));
+  useEffect(() => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === PermissionStatus.GRANTED ? true : false);
+     })();
+  }, []);
 
-    setBarcodes({ barcodes });
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
+
+  if (hasPermission === null) {
+    return <Text>Requesting for camera permission</Text>;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
   }
 
-  const renderBarcode = ({ data }) =>
-    Alert.alert(
-      'Scanned Data',
-      data,
-      [
-        {
-          text: 'Okay',
-          onPress: () => console.log('Okay Pressed'),
-          style: 'cancel'
-        }
-      ],
-      { cancelable: false }
-    );
-
-return (
-<View style={styles.container}>
-      <RNCamera
-        ref={cameraRef}
-        style={styles.scanner}
-        onGoogleVisionBarcodesDetected={barcoderecognized}>
-        {renderBarcode}>
-        </RNCamera>
-      </View>
-)
+  return (
+    <View style={styles.container}>
+      <BarCodeScanner
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={StyleSheet.absoluteFillObject}
+      />
+      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'black'
+    justifyContent: 'center',
   },
-
-  scanner: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  }
-})
+});
