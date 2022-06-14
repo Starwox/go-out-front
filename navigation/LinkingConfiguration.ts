@@ -30,6 +30,11 @@ const linking: LinkingOptions<RootStackParamList> = {
               CodeScreen: 'Code',
             },
           },
+          Register: {
+            screens: {
+              RegisterScreen: 'Register',
+            },
+          },
         },
       },
       Modal: 'modal',
