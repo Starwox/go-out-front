@@ -5,6 +5,7 @@ import { Linking } from 'react-native';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import AuthenticationHandler from '../components/utils/AuthenticationHandler';
 
 import { useState } from 'react';
 // const navigation = useNavigation<StackNavigationProp<RootTabParamList>>();
@@ -48,6 +49,8 @@ export default function LoginScreen () {
         <Button style={styles.registerBtn} icon="account-plus" mode="contained" onPress={() => navigation.navigate("Code")}>
         <Text style={styles.loginText}>Signup</Text>
   </Button>
+  <AuthenticationHandler></AuthenticationHandler>
+
 
   
       </View>

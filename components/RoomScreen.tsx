@@ -6,13 +6,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import AuthenticationHandler from '../components/utils/AuthenticationHandler';
 
 export default function RoomScreen() {
   const navigation = useNavigation(); 
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>PopOut</Text>
-        <Button style={styles.loginBt} mode="contained" onPress={() => navigation.navigate("Code")}>
+      <AuthenticationHandler></AuthenticationHandler>
+        <Button style={styles.loginBt} mode="contained" onPress={() => console.log('Pressed')}>
           <Text style={styles.loginText}> Scanner le QR code </Text>
         </Button>
       {/* <TouchableOpacity>
