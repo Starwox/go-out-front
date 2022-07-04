@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, FlatList, StyleSheet, View, Image } from 'react-native';
 import { Button, Text } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 const data = [
   {
@@ -33,21 +34,27 @@ const data = [
   },
 ];
 // add nav
+export default function(props) {
+  const navigation = useNavigation();
 
-export default class App extends React.Component {
+  return <LoginScreen {...props} navigation={navigation} />;
+}
+class LoginScreen extends React.Component {
+
   renderItem = ({ item }) => (
     <View style={style.container}>
       <Image
         source={{ uri: item.image }}
         style={{ width: '100%', height: 133 }}
       />
-      <Button style={style.btn}>
+      <Button style={style.btn} onPress={() => this.props.navigation.navigate("Code")}>
         <Text style={{ marginTop: 8, fontSize: 12}} variant="labelMedium">
           {item.title} {item.artist}
         </Text>
       </Button>
     </View>
   );
+  
 
   render() {
     return (
@@ -66,7 +73,7 @@ export default class App extends React.Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    // backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
