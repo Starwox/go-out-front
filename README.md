@@ -1,4 +1,13 @@
 # go-out-front
-## package utilisés:
-###    - react-native paper
-###    - - expo-barcode-scanner
+## Packages utilisés:
+- react-native paper
+- expo-barcode-scanner
+- expo
+
+## Installation avec:
+
+```
+yarn add react-native-paper
+npm install --global expo-cli
+expo install expo-barcode-scanner
+```
