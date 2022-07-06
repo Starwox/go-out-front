@@ -62,14 +62,14 @@ function SongItem({ item }: SongItemProps) {
 export default function ChooseSongScren() {
   return (
     <SafeAreaView style={style.area}>
-      <FlatList
-        data={data}
-        renderItem={SongItem}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        style={style.list}
-      />
-    </SafeAreaView>
+    <FlatList
+      data={data}
+      renderItem={({item}) => <SongItem item={item} />}
+      keyExtractor={(item) => item.id}
+      numColumns={2}
+      style={style.list}
+    />
+  </SafeAreaView>
   );
 }
 const style = StyleSheet.create({
