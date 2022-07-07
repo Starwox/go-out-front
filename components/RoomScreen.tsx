@@ -4,13 +4,16 @@ import { Button } from 'react-native-paper';
 import { Linking } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import AuthenticationHandler from '../components/utils/AuthenticationHandler';
 
-export default function RoomScreen({navigation}) {
-  
+export default function RoomScreen() {
+  const navigation = useNavigation(); 
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>PopOut</Text>
+      <AuthenticationHandler></AuthenticationHandler>
         <Button style={styles.loginBt} mode="contained" onPress={() => console.log('Pressed')}>
           <Text style={styles.loginText}> Scanner le QR code </Text>
         </Button>
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
     marginBottom:40
   },
   inputView:{
-    width:"80%",
+    width:"50%",
     backgroundColor:"#465881",
     borderRadius:25,
     height:50,
@@ -54,7 +57,7 @@ const styles = StyleSheet.create({
     color:"white"
   },
   loginBt:{
-    // width:"65%" ,
+    width:"65%" ,
     borderRadius:25,
     height:50,
     alignItems:"center",
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
     
   },
   registerBtn:{
-    // width:"65%" ,
+    width:"65%" ,
     backgroundColor: '#96527A', 
     borderRadius:25,
     height:50,
@@ -74,14 +77,5 @@ const styles = StyleSheet.create({
   },
   loginText:{
     color:"white"
-  },
-    title: {
-      fontSize: 20,
-      fontWeight: 'bold',
-    },
-    separator: {
-      marginVertical: 30,
-      height: 1,
-      width: '80%',
-    },
+  }
 });

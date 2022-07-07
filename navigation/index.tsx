@@ -14,6 +14,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
+import SongScreen from '../screens/SongScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
@@ -22,6 +23,7 @@ import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../typ
 import LinkingConfiguration from './LinkingConfiguration';
 import RoomScreen from '../components/RoomScreen';
 import ShareCodeScreen from '../components/ShareCodeScreen';
+import LoginScreen from '../components/LoginScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -42,11 +44,14 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Root" options={{headerStyle:{"backgroundColor":"linear-gradient(93.27deg, #CD6889 47.3%, rgba(205, 104, 137, 0.53125) 95.4%, rgba(205, 104, 137, 0) 135.25%, rgba(205, 104, 137, 0) 135.25%)"}}}>
+      {/* <Stack.Screen name="Root" options={{headerStyle:{"backgroundColor":"linear-gradient(93.27deg, #CD6889 47.3%, rgba(205, 104, 137, 0.53125) 95.4%, rgba(205, 104, 137, 0) 135.25%, rgba(205, 104, 137, 0) 135.25%)"}}}>
         {props => <RoomScreen {...props} />}
-      </Stack.Screen>
+      </Stack.Screen> */}
+      <Stack.Screen name="Root" component={TabOneScreen} />
+      <Stack.Screen name="Two" component={TabTwoScreen} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="Code" component={ShareCodeScreen} />
+      <Stack.Screen name="Song" component={SongScreen} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>

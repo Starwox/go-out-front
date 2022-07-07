@@ -1,6 +1,13 @@
 # go-out-front
-## package utilisés:
-###    - react-native paper
-###    - - react-native-camera 
+## Packages utilisés:
+- react-native paper
+- expo-barcode-scanner
+- expo
 
-#### (non utilisé) react-native-qrcode-scanner (yarn)
+## Installation avec:
+
+```
+yarn add react-native-paper
+npm install --global expo-cli
+expo install expo-barcode-scanner
+```

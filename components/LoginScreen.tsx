@@ -5,32 +5,34 @@ import { Linking } from 'react-native';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import AuthenticationHandler from '../components/utils/AuthenticationHandler';
 
-const navigation = useNavigation<StackNavigationProp<RootTabParamList>>();
+import { useState } from 'react';
+// const navigation = useNavigation<StackNavigationProp<RootTabParamList>>();
 
-export default class LoginScreen extends React.Component {
-  state={
-    email:"",
-    password:""
-  }
-  render(){
+export default function LoginScreen () {
+  const navigation = useNavigation(); 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  {
     return (
       <View style={styles.container}>
         <Text style={styles.logo}>PopOut</Text>
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
-            placeholder="Email... &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;" 
+            placeholder="Email... " 
             placeholderTextColor="#003f5c"
-            onChangeText={text => this.setState({email:text})}/>
+            onChangeText={text => setEmail(text)}/>
         </View>
         <View style={styles.inputView} >
           <TextInput  
-            secureTextEntry
+            secureTextEntry={true}
             style={styles.inputText}
             placeholder="Password..." 
             placeholderTextColor="#003f5c"
-            onChangeText={text => this.setState({password:text})}/>
+            onChangeText={text => setPassword(text)}/>
         </View>
         <TouchableOpacity>
           <Text style={styles.forgot}>Forgot Password?</Text>
@@ -38,15 +40,17 @@ export default class LoginScreen extends React.Component {
         {/* <TouchableOpacity style={styles.loginBtn}>
           <Text style={styles.loginText}>&nbsp; &nbsp; &nbsp; &nbsp; LOGIN &nbsp; &nbsp; &nbsp; &nbsp;</Text>
         </TouchableOpacity> */}
-        <Button style={styles.loginBt} icon="login" mode="contained" onPress={() => console.log('Pressed')}>
+        <Button style={styles.loginBtn} icon="login" mode="contained" onPress={() => navigation.navigate("Two")}>
         <Text style={styles.loginText}>LOGIN </Text>
   </Button>
         {/* <TouchableOpacity>
           <Text style={styles.loginText} href="Register">Signup</Text>
         </TouchableOpacity> */}
-        <Button style={styles.registerBtn} icon="account-plus" mode="contained" onPress={() => navigation.navigate("TabOne")}>
+        <Button style={styles.registerBtn} icon="account-plus" mode="contained" onPress={() => navigation.navigate("Code")}>
         <Text style={styles.loginText}>Signup</Text>
   </Button>
+  <AuthenticationHandler></AuthenticationHandler>
+
 
   
       </View>
@@ -58,7 +62,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#003f5c',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -69,8 +73,8 @@ const styles = StyleSheet.create({
     marginBottom:40
   },
   inputView:{
-    width:"80%",
-    backgroundColor:"#465881",
+    width:"50%",
+    backgroundColor:"#915e7c",
     borderRadius:25,
     height:50,
     marginBottom:20,
@@ -85,31 +89,24 @@ const styles = StyleSheet.create({
     color:"white",
     fontSize:11
   },
+
   loginBtn:{
-    width:"80%",
-    backgroundColor:"#fb5b5a",
+    width:"35%" ,
     borderRadius:25,
     height:50,
     alignItems:"center",
     justifyContent:"center",
     marginTop:40,
-    marginBottom:10
-  },
-  loginBt:{
-    width:"65%" ,
-    borderRadius:25,
-    height:50,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:40,
-    marginBottom:10
+    marginBottom:10,
+    backgroundColor: '#96527A'
   },
   registerBtn:{
-    width:"65%" ,
+    width:"35%" ,
     borderRadius:25,
     height:50,
     alignItems:"center",
     justifyContent:"center",
+    backgroundColor: '#96527A'
   },
   loginText:{
     color:"white"
