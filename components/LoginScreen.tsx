@@ -49,7 +49,7 @@ export default function LoginScreen () {
         <Button style={styles.registerBtn} icon="account-plus" mode="contained" onPress={() => navigation.navigate("Code")}>
         <Text style={styles.loginText}>Signup</Text>
   </Button>
-  <AuthenticationHandler></AuthenticationHandler>
+  <AuthenticationHandler navigation={navigation}></AuthenticationHandler>
 
 
   

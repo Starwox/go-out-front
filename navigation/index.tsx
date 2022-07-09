@@ -14,7 +14,8 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import SongScreen from '../screens/SongScreen';
+import PlaylistsScreen from '../screens/PlaylistsScreen';
+import SongsScreen from '../screens/SongsScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
@@ -51,7 +52,8 @@ function RootNavigator() {
       <Stack.Screen name="Two" component={TabTwoScreen} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="Code" component={ShareCodeScreen} />
-      <Stack.Screen name="Song" component={SongScreen} />
+      <Stack.Screen name="Playlists" component={PlaylistsScreen} />
+      <Stack.Screen name="Songs" component={SongsScreen} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
