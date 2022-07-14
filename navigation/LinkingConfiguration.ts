@@ -35,11 +35,21 @@ const linking: LinkingOptions<RootStackParamList> = {
               RegisterScreen: 'Register',
             },
           },
-          Song: {
+          EnterCode: {
             screens: {
-              SongScreen: 'Song',
+              EnterCodeScreen: 'EnterCode',
             },
           },
+          Playlists: {
+            screens: {
+              PlaylistsScreen: 'Playlists',
+            },
+          },
+          Songs: {
+            screens: {
+              SongsScreen: 'Songs',
+            }
+          }
         },
       },
       Modal: 'modal',
