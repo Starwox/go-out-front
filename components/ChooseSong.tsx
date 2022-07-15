@@ -6,7 +6,27 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import CountDown from 'react-native-countdown-component';
 var _ = require('lodash');
+import SpotifyWebApi from "spotify-web-api-node";
+const spotifyApi = new SpotifyWebApi();
 
+function player(codeMusic,token) {
+    axios.post('https://127.0.0.1:8000/fr/api/get-winner-music', {
+        codeRoom: codeMusic
+    })
+    .then((response) => {
+        if(response.data[1] == 200) {
+            let data = response.data[0];
+            axios.post('https://127.0.0.1:8000/fr/api/player', {
+                uri: data.uri,
+                token: token
+            }).then((response) => {
+                console.log(response.data)
+            })
+        }
+      }, (error) => {
+        console.log(error);
+      });
+}
 
 function voteAction(idMusic, codeMusic, setDisabledButton) {
 
@@ -21,8 +41,6 @@ function voteAction(idMusic, codeMusic, setDisabledButton) {
       }, (error) => {
         console.log(error);
       });
-    console.log(idMusic);
-
 }
 
 function SongItem({ item, codeMusic }) {
@@ -61,7 +79,9 @@ export default function ChooseSongScreen({idPlaylist}) {
     const [code, setCode] = React.useState();
     const [roomId, setRoomId] = React.useState();
     const [codeMusic, setCodeMusic] = React.useState();
-  
+    const [timer, setTimer] = React.useState(15102);
+    spotifyApi.setAccessToken(token);
+
     React.useEffect(async () => {
       axios.post('https://127.0.0.1:8000/fr/api/spotify-playlist?'+ 'spotifyToken='+ token + '&idPlaylist='+idPlaylist)
       .then((response) => {
@@ -99,10 +119,11 @@ export default function ChooseSongScreen({idPlaylist}) {
           {code}
         </Text>
         <CountDown
-        until={151028 / 1000}
+        until={timer / 1000}
         timeToShow={['M', 'S']}
         digitStyle={{backgroundColor: '#96527A'}}
         digitTxtStyle={{color: '#FFF'}}
+        onFinish={() => player(codeMusic, token)}
         size={20}
       />
         </View>
