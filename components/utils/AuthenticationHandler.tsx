@@ -38,7 +38,7 @@ const AuthenticationHandler = ({navigation}) => {
       // In order to follow the "Authorization Code Flow" to fetch token after authorizationEndpoint
       // this must be set to false
       usePKCE: false,
-      redirectUri: 'https://192.168.1.129:19006',
+      redirectUri: 'https://127.0.0.1:19006',
     },
     discovery
   );
