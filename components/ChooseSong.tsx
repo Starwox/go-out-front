@@ -9,7 +9,9 @@ var _ = require('lodash');
 import SpotifyWebApi from "spotify-web-api-node";
 const spotifyApi = new SpotifyWebApi();
 
-function player(codeMusic,token) {
+function player(codeMusic, token, setMusics, setCode, setRoomId, idPlaylist, setCodeMusic, 
+    roomId, musics, setTimer, setDisabledButton) {
+    console.log(codeMusic);
     axios.post('https://127.0.0.1:8000/fr/api/get-winner-music', {
         codeRoom: codeMusic
     })
@@ -19,8 +21,11 @@ function player(codeMusic,token) {
             axios.post('https://127.0.0.1:8000/fr/api/player', {
                 uri: data.uri,
                 token: token
-            }).then((response) => {
-                console.log(response.data)
+            }).then(() => {
+                generateFourMusic(setMusics, setCode, setRoomId, token, idPlaylist)
+                createMusicRound(setCodeMusic, roomId, musics);
+                setTimer(data.duration);
+                setDisabledButton(false);
             })
         }
       }, (error) => {
@@ -43,8 +48,7 @@ function voteAction(idMusic, codeMusic, setDisabledButton) {
       });
 }
 
-function SongItem({ item, codeMusic }) {
-    const [disabledButton, setDisabledButton] = React.useState(false);
+function SongItem({ item, codeMusic, disabledButton, setDisabledButton }) {
 
   return (
     <View style={style.container}>
@@ -72,6 +76,31 @@ function SongItem({ item, codeMusic }) {
   );
 }
 
+function generateFourMusic(setMusics, setCode, setRoomId, token, idPlaylist) {
+    axios.post('https://127.0.0.1:8000/fr/api/spotify-playlist?'+ 'spotifyToken='+ token + '&idPlaylist='+idPlaylist)
+    .then((response) => {
+      let randomizer = _.shuffle(response.data[0]);
+      let fourMusic = randomizer?.slice(0,4)
+      setMusics(fourMusic)
+      setCode(response.data[1][0])
+      setRoomId(response.data[1][1])
+    }, (error) => {
+      console.log(error);
+    });
+}
+
+function createMusicRound(setCodeMusic, roomId, musics) {
+    axios.post('https://127.0.0.1:8000/fr/api/music-init', {
+        roomId: roomId,
+        musics: musics,
+    })
+    .then((response) => {
+        setCodeMusic(response.data)
+      }, (error) => {
+        console.log(error);
+      });
+}
+
 export default function ChooseSongScreen({idPlaylist}) {
 
     const token = useSelector((state) => state.token.token);
@@ -79,36 +108,22 @@ export default function ChooseSongScreen({idPlaylist}) {
     const [code, setCode] = React.useState();
     const [roomId, setRoomId] = React.useState();
     const [codeMusic, setCodeMusic] = React.useState();
-    const [timer, setTimer] = React.useState(15102);
-    spotifyApi.setAccessToken(token);
+    const [timer, setTimer] = React.useState(30204);
+    const [disabledButton, setDisabledButton] = React.useState(false);
+
+
 
     React.useEffect(async () => {
-      axios.post('https://127.0.0.1:8000/fr/api/spotify-playlist?'+ 'spotifyToken='+ token + '&idPlaylist='+idPlaylist)
-      .then((response) => {
-        let randomizer = _.shuffle(response.data[0]);
-        let fourMusic = randomizer?.slice(0,4)
-        setMusics(fourMusic)
-        setCode(response.data[1][0])
-        setRoomId(response.data[1][1])
-      }, (error) => {
-        console.log(error);
-      });
+        generateFourMusic(setMusics, setCode, setRoomId, token, idPlaylist)
     }, []);
 
     React.useEffect(() => {
         if(musics && roomId) {
-            axios.post('https://127.0.0.1:8000/fr/api/music-init', {
-                roomId: roomId,
-                musics: musics,
-            })
-            .then((response) => {
-                setCodeMusic(response.data[0])
-              }, (error) => {
-                console.log(error);
-              });
-            console.log(musics);
+            createMusicRound(setCodeMusic, roomId, musics);
         }
       }, [musics, roomId]);
+
+
     return (
     <SafeAreaView style={style.area}>
         <View style={style.containerText}>
@@ -118,18 +133,22 @@ export default function ChooseSongScreen({idPlaylist}) {
         <Text style={style.textCode} variant="labelMedium">
           {code}
         </Text>
+
         <CountDown
-        until={timer / 1000}
-        timeToShow={['M', 'S']}
-        digitStyle={{backgroundColor: '#96527A'}}
-        digitTxtStyle={{color: '#FFF'}}
-        onFinish={() => player(codeMusic, token)}
-        size={20}
-      />
+                until={timer / 1000}
+                timeToShow={['M', 'S']}
+                digitStyle={{backgroundColor: '#96527A'}}
+                digitTxtStyle={{color: '#FFF'}}
+                showSeparator
+                onFinish={() => player(codeMusic, token, setMusics,
+                     setCode, setRoomId, idPlaylist, setCodeMusic,
+                      roomId, musics, setTimer, setDisabledButton)}
+                size={20}
+        />
         </View>
             <FlatList
             data={musics}
-            renderItem={({item}) => <SongItem item={item} codeMusic={codeMusic}/>}
+            renderItem={({item}) => <SongItem item={item} codeMusic={codeMusic} disabledButton={disabledButton} setDisabledButton={setDisabledButton}/>}
             keyExtractor={(item, index) => String(index)}
             numColumns={2}
             style={style.list}
