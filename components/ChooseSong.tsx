@@ -11,7 +11,6 @@ const spotifyApi = new SpotifyWebApi();
 
 function player(codeMusic, token, setMusics, setCode, setRoomId, idPlaylist, setCodeMusic, 
     roomId, musics, setTimer, setDisabledButton) {
-    console.log(codeMusic);
     axios.post('https://127.0.0.1:8000/fr/api/get-winner-music', {
         codeRoom: codeMusic
     })
