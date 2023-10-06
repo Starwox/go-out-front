@@ -8,8 +8,13 @@ import store from './store/reducers/playlists'
 import { Provider } from 'react-redux'
 import tokenReducer from "./store/reducers/token";
 import playlistsRecucer from "./store/reducers/playlists";
-
+import { useFonts } from 'expo-font';
+let customFonts = {
+  'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
+  'Inter-Black': require('./assets/fonts/Inter-Black.ttf')
+};
 export default function App() {
+  const [isLoaded] = useFonts(customFonts);
   const rootReducer = combineReducers({
     token: tokenReducer,
     playlists: playlistsRecucer,

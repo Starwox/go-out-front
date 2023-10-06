@@ -12,15 +12,14 @@ export default function RoomScreen() {
   const navigation = useNavigation(); 
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>PopOut</Text>
-      <AuthenticationHandler></AuthenticationHandler>
-        <Button style={styles.loginBt} mode="contained" onPress={() => console.log('Pressed')}>
+      {/* <Text style={styles.logo}>PopOut</Text> */}
+        <Button style={styles.loginBt} mode="contained" onPress={() => navigation.navigate('Code')}>
           <Text style={styles.loginText}> Scanner le QR code </Text>
         </Button>
       {/* <TouchableOpacity>
         <Text style={styles.loginText} href="Register">Signup</Text>
       </TouchableOpacity> */}
-      <Button style={styles.registerBtn} mode="contained" onPress={() => navigation.navigate("Code")}>
+      <Button style={styles.registerBtn} mode="contained" onPress={() => navigation.navigate("EnterCode")}>
         <Text style={styles.loginText}> &nbsp; &nbsp; Entrez le code &nbsp; &nbsp;  </Text>
       </Button>
 

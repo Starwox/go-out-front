@@ -1,7 +1,7 @@
 import { ADD_PLAYLISTS } from "../actions/playlist";
 
 const initialState = {
-  playlists: []
+  topSongs: []
 };
 
 export default (state = initialState, action) => {

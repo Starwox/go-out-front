@@ -50,7 +50,7 @@ function voteAction(idMusic, codeMusic, setDisabledButton) {
 function SongItem({ item, codeMusic, disabledButton, setDisabledButton }) {
 
   return (
-    <View style={style.container}>
+    <View style={style.container}         key={item.id_playlists}>
       <Image
         source={{ uri: item.img_music[1].url }}
         style={{ width: "100%", height: 300 }}
@@ -112,7 +112,7 @@ export default function ChooseSongScreen({idPlaylist}) {
 
 
 
-    React.useEffect(async () => {
+    React.useEffect( () => {
         generateFourMusic(setMusics, setCode, setRoomId, token, idPlaylist)
     }, []);
 

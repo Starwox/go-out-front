@@ -22,6 +22,7 @@ export type RootStackParamList = {
   Register: undefined;
   Playlists: undefined;
   Songs: undefined;
+  EnterCode: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -36,6 +37,7 @@ export type RootTabParamList = {
   Register: undefined;
   Playlists: undefined;
   Songs: undefined;
+  EnterCode: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
