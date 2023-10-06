@@ -112,7 +112,7 @@ export default function ChooseSongScreen({idPlaylist}) {
 
 
 
-    React.useEffect(async () => {
+    React.useEffect( () => {
         generateFourMusic(setMusics, setCode, setRoomId, token, idPlaylist)
     }, []);
 

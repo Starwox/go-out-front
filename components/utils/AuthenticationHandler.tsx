@@ -1,12 +1,14 @@
 import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
-import { ResponseType, useAuthRequest } from 'expo-auth-session';
-import { StyleSheet, Text, Image } from 'react-native';
+import { ResponseType, useAuthRequest, makeRedirectUri } from 'expo-auth-session';
+import { StyleSheet, Text, Image, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import * as tokenAction from "../../store/actions/token";
 import * as playlists from "../../store/actions/playlist";
+import Constants from "expo-constants";
+
 
 WebBrowser.maybeCompleteAuthSession();
 //const queryString = require('query-string');
@@ -21,6 +23,10 @@ const AuthenticationHandler = ({navigation}) => {
   const playlistsData = () => {
     useSelector((state) => state.playlists)
   }
+  const REDIRECT_URI = makeRedirectUri({
+    native: "go-out-front://redirect",
+  });
+
   const [request, response, promptAsync] = useAuthRequest(
     {
       responseType: ResponseType.Token,
@@ -38,7 +44,7 @@ const AuthenticationHandler = ({navigation}) => {
       // In order to follow the "Authorization Code Flow" to fetch token after authorizationEndpoint
       // this must be set to false
       usePKCE: false,
-      redirectUri: 'https://127.0.0.1:19006',
+      redirectUri: REDIRECT_URI,
     },
     discovery
   );
@@ -46,6 +52,7 @@ const AuthenticationHandler = ({navigation}) => {
   React.useEffect(() => {
     if (response?.type === "success") {
       const { access_token } = response.params;
+      
       axios.post(
         "https://127.0.0.1:8000/fr/api/spotify-user/"+ access_token)
         .then((response) => {
@@ -53,6 +60,7 @@ const AuthenticationHandler = ({navigation}) => {
           navigation.navigate("Playlists");
         })
         .catch((error) => {
+          console.log(error);
           console.log("error", error.message);
         });
         dispatch(tokenAction.addToken(access_token));
@@ -76,7 +84,7 @@ export default AuthenticationHandler;
 
 const styles = StyleSheet.create({
   loginBt:{
-    // width:"65%" ,
+    width:"65%" ,
     borderRadius:25,
     height:50,
     alignItems:"center",
